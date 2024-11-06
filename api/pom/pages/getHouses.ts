@@ -1,12 +1,15 @@
 import { APIRequestContext } from "playwright-core";
 
-export class GetWord {
+
+export class GetHouses {
     request: APIRequestContext;
+
 
     constructor(request: APIRequestContext) {
       this.request = request;
     }
-    async getaWord() {
+    async ejemplo() {
+
 
     }
 }
