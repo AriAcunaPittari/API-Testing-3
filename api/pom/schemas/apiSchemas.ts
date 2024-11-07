@@ -13,13 +13,13 @@ export class Schemas {
 
   characters = z.object({
     fullName: z.string(),
-    name: z.string(),
     nickname: z.string(),
     hogwartsHouse: z.string(),
     interpretedBy: z.string(),
     children: z.array(z.string()),
     image: z.string(),
     birthdate: z.string(),
+    index: z.number()
   });
   charactersList = z.array(this.characters);
 

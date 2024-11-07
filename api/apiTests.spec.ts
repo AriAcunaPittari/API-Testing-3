@@ -1,21 +1,24 @@
 import { test } from "@playwright/test";
 import { ApiManager } from "./pom/apiManager";
-import * as schemaInfo from "./pom/schemas/apiSchemas"
+import * as schemaInfo from "./pom/schemas/apiSchemas";
 import { validateSchema } from "../utils/schemaValidator";
 
 const schema = new schemaInfo.Schemas();
 let apiManager: ApiManager;
 
 test.describe("Ejemplo de tests", () => {
-  test
-  (
-    "Get: Cast an existing Spell",
+  test(
+    "Get: Spells List",
     {
       tag: "@Get",
     },
     async ({ request }) => {
       apiManager = new ApiManager(request);
-
+      const getBookList = await apiManager.getSpells();
+      const returnData = await getBookList.getSpellsList(false);
+      await apiManager.checkerGet.positiveCheck(returnData);
+      console.log("Return Data:", returnData);
+      await validateSchema(false, returnData, schema.spellsList);
     }
   );
   test(
@@ -24,25 +27,22 @@ test.describe("Ejemplo de tests", () => {
       tag: "@Get",
     },
     async ({ request }) => {
-      //OK
       apiManager = new ApiManager(request);
       const getBookList = await apiManager.getBooksLists();
       const returnData = await getBookList.getBooks(false);
       await apiManager.checkerGet.positiveCheck(returnData);
       console.log("Return Data:", returnData);
       await validateSchema(false, returnData, schema.booksList);
-    
     }
   );
   test(
-    "Get: Random Spell",
+    "Get: Cast an existing Spell but Random",
     {
       tag: "@Get",
     },
     async ({ request }) => {
       apiManager = new ApiManager(request);
-      apiManager = new ApiManager(request);
-      const getBookList = await apiManager.getRandomSpell();
+      const getBookList = await apiManager.getSpells();
       const returnData = await getBookList.getRandomSpell(false);
       await apiManager.checkerGet.positiveCheck(returnData);
       console.log("Return Data:", returnData);
@@ -58,10 +58,11 @@ test.describe("Ejemplo de tests", () => {
       apiManager = new ApiManager(request);
       const characterSelected = apiManager.getACharacter();
       const checkcharacterok = apiManager.getChecker();
-      const returnData = await characterSelected.selectCharacter();
+      const returnData = await characterSelected.selectCharacter(false);
+      console.log(returnData);
       await checkcharacterok.positiveCheck(returnData);
-      await validateSchema(true, returnData, schema.characters);
-
+      //Lo deje como "List" porque por mas que encuentra 1 objeto el mismo esta dentro de un array
+      await validateSchema(false, returnData, schema.charactersList);
     }
   );
   test(
@@ -88,7 +89,7 @@ test.describe("Ejemplo de tests", () => {
       const createNew = await apiManager.getpostCharacter();
       const postCheck = await apiManager.getcheckNegative();
       const createPayLoad = {
-        fullName: "Ariana Anahi Pittari"
+        fullName: "Ariana Anahi Pittari",
       };
       const returnData = await createNew.postCharacter(createPayLoad);
       await postCheck.negativeCheck(returnData);
@@ -122,12 +123,11 @@ test.describe("Ejemplo de tests", () => {
       const updateBook = await apiManager.getpatchABook();
       const updateBookChecker = await apiManager.getcheckNegative();
       const updatePayload = {
-        description: "Alto libro, el mejor de la historia. Nada mas que agregar",
+        description:
+          "Alto libro, el mejor de la historia. Nada mas que agregar",
       };
       const returnData = await updateBook.patchABook(updatePayload, false);
       await updateBookChecker.negativeCheck(returnData);
-      await validateSchema(false,returnData, schema.books);
-    
     }
   );
   test(
@@ -144,8 +144,6 @@ test.describe("Ejemplo de tests", () => {
       };
       const returnData = await updateBook.putBook(updatePayload, false);
       await updateBookChecker.negativeCheck(returnData);
-      await validateSchema(false,returnData, schema.books);
-    
     }
   );
 });

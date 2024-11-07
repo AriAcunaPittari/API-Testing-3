@@ -10,13 +10,12 @@ import { PutBook } from "./pages/putCharacter";
 import { CheckGet } from "./checker/getChecker";
 import { NegativeChecker } from "./checker/negativeChecker";
 
-
 export class ApiManager {
   request: APIRequestContext;
   getBookList: GetBooks;
   getCharacter: GetACharacter;
   getHouses: GetHouses;
-  getARandomSpell: GetSpells;
+  getSpell: GetSpells;
   deleteCharacter: DeleteCharacter;
   patchABook: PatchABook;
   postCharacter: PostCharacter;
@@ -29,14 +28,13 @@ export class ApiManager {
     this.getBookList = new GetBooks(this.request);
     this.getCharacter = new GetACharacter(this.request);
     this.getHouses = new GetHouses(this.request);
-    this.getARandomSpell = new GetSpells(this.request);
+    this.getSpell = new GetSpells(this.request);
     this.deleteCharacter = new DeleteCharacter(this.request);
     this.patchABook = new PatchABook(this.request);
     this.postCharacter = new PostCharacter(this.request);
     this.putBook = new PutBook(this.request);
     this.checkerGet = new CheckGet(this.request);
     this.negativeChecker = new NegativeChecker(this.request);
-
   }
   getBooksLists() {
     return this.getBookList;
@@ -47,8 +45,8 @@ export class ApiManager {
   getHousesList() {
     return this.getHouses;
   }
-  getRandomSpell() {
-    return this.getARandomSpell;
+  getSpells() {
+    return this.getSpell;
   }
   getpostCharacter() {
     return this.postCharacter;
@@ -68,5 +66,4 @@ export class ApiManager {
   getcheckNegative() {
     return this.negativeChecker;
   }
-
 }
