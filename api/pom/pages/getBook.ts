@@ -7,7 +7,7 @@ export class GetBooks {
       this.request = request;
     }
     async getBooks(json:boolean = false) {
-      const requestURL = await process.env.URL_HOME!;
+      const requestURL = await process.env.URL_BOOKSLIST!;
       const response = await this.request.get(requestURL);
       if(json===true){
         const getBooksList = await response.json();

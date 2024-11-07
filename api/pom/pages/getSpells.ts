@@ -8,8 +8,17 @@ export class GetSpells {
     constructor(request: APIRequestContext) {
       this.request = request;
     }
-    async ejemplo() {
-
+    async getRandomSpell(json:boolean = false) {
+      const requestURL = await process.env.URL_RANDOM_SPELLS!;
+      const response = await this.request.get(requestURL);
+      if(json===true){
+        const getASpell = await response.json();
+        console.log(response.json());
+        return getASpell;
+        
+      }else{
+        return response;
+      }
 
     }
 }

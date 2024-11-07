@@ -1,7 +1,7 @@
 import { APIRequestContext } from "playwright-core";
 
 
-export class GetCharacter {
+export class GetACharacter {
     request: APIRequestContext;
 
 
@@ -9,7 +9,7 @@ export class GetCharacter {
       this.request = request;
     }
     async selectCharacter(json:boolean = false) {
-      const requestURL = await process.env.URL_HOME!;
+      const requestURL = await process.env.URL_CHARACTER!;
       const response = await this.request.get(requestURL);
       if(json===true){
         const getCharacter = await response.json();
@@ -21,4 +21,5 @@ export class GetCharacter {
       
 
     }
+}
 }

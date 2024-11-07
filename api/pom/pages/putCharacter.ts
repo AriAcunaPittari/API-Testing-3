@@ -1,17 +1,16 @@
-
 import { APIRequestContext } from "playwright-core";
 
 
-export class PatchABook {
+export class PutBook {
     request: APIRequestContext;
 
 
     constructor(request: APIRequestContext) {
       this.request = request;
     }
-    async patchABook(updatePayload: { description: string },json:boolean=false) {
+    async putBook(updatePayload: { title: string },json:boolean=false) {
       const requestURL = await process.env.URL_BOOK!;
-      const response = await this.request.patch(requestURL, {
+      const response = await this.request.put(requestURL, {
         data: updatePayload,
       });
   
